@@ -58,7 +58,6 @@ class ReadIni:
         print(ssid)
         return ssid
 
-
 def parse_param(param):
     param = param.split('"')
     param = param[1]

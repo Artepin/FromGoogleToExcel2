@@ -21,6 +21,7 @@ class Spreadsheets:
         print(read_coords)
         self.coordinates = uGoogleFunc.getCoordOfNr(self.ss, self.ssId, read_coords)
 
+
     def get_coord_of_nr(
             self):  # функция, создающая в классе объект координат по объекту таблицы, её id и именованной ячейке
 

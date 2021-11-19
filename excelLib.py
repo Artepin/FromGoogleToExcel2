@@ -115,7 +115,6 @@ class ExcelData(object):
                         if j is None:
                             g_none_count += 1
                             row_excel_result +=1
-
                         if i == j[0][0]:
                             repeat_count += 1
                             if repeat_count > exc_repeat:

@@ -7,7 +7,6 @@ from google.oauth2.credentials import Credentials
 import os
 os.environ["HTTPS_PROXY"]='https://k215:123@prox.mera.local:3128'
 
-
 def init(p_Creds, p_tokenName):
 
     SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
