@@ -35,7 +35,6 @@ class ReadIni:
     def get_excel_data_id(self):
         id = parse_param(self.config['Excel']['data_id']).split(', ')
         print(id)
-        print()
         return id
 
     def get_excel_param(self, name_of_param):
