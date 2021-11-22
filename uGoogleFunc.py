@@ -5,10 +5,11 @@ from google_auth_oauthlib.flow import InstalledAppFlow
 from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 import os
-os.environ["HTTPS_PROXY"]='https://k215:123@prox.mera.local:3128'
+
 
 def init(p_Creds, p_tokenName):
-
+    os.environ["HTTP_PROXY"] = 'http://kozlovaa:123@prox.mera.local:3128'
+    os.environ["HTTPS_PROXY"] = 'https://kozlovaa:123@prox.mera.local:3128'
     SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
     creds = None
     # The file token.json stores the user's access and refresh tokens, and is
@@ -22,8 +23,7 @@ def init(p_Creds, p_tokenName):
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
         else:
-            flow = InstalledAppFlow.from_client_secrets_file(
-                p_Creds+'.json', SCOPES)
+            flow = InstalledAppFlow.from_client_secrets_file(p_Creds+'.json', SCOPES)
             #rename token
             #os.rename('token.json', p_tokenName)
             creds = flow.run_local_server(port=0)
@@ -32,7 +32,7 @@ def init(p_Creds, p_tokenName):
             token.write(creds.to_json())
 
     service = build('sheets', 'v4', credentials=creds)
-    # proxies = 'https://k215:123@192.168.0.254:3128'
+    # proxies = 'https://kozlovaa:123@prox.mera.local:3128'
     ss = service.spreadsheets()
     return ss
 
