@@ -8,8 +8,8 @@ import os
 
 
 def init(p_Creds, p_tokenName):
-    os.environ["HTTP_PROXY"] = 'http://kozlovaa:123@prox.mera.local:3128'
-    os.environ["HTTPS_PROXY"] = 'https://kozlovaa:123@prox.mera.local:3128'
+
+    os.environ["HTTPS_PROXY"] = 'http://kozlovaa:123@prox.mera.local:3128'
     SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
     creds = None
     # The file token.json stores the user's access and refresh tokens, and is
@@ -31,7 +31,12 @@ def init(p_Creds, p_tokenName):
         with open(ltoken, 'w') as token:
             token.write(creds.to_json())
 
-    service = build('sheets', 'v4', credentials=creds)
+    # service = build('sheets', 'v4', credentials=creds)
+    try:
+        service = build('sheets', 'v4', credentials=creds)
+    except:
+        DISCOVERY_SERVICE_URL = 'https://sheets.googleapis.com/$discovery/rest?version=v4'
+        service = build('sheets', 'v4', credentials=creds, discoveryServiceUrl=DISCOVERY_SERVICE_URL)
     # proxies = 'https://kozlovaa:123@prox.mera.local:3128'
     ss = service.spreadsheets()
     return ss

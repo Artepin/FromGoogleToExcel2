@@ -1,5 +1,7 @@
 import re
 import os
+import sys
+
 import uGoogleFunc
 import read_ini
 
@@ -12,10 +14,12 @@ class Spreadsheets:
         self.repeat_list = []
         self.gData = {}
         self.ssId = read_param.get_url()
-        startdir = os.path.abspath(os.path.curdir)
+        startdir = os.path.abspath(os.path.dirname(sys.argv[0]))
+        # startdir = os.path.abspath(os.path.curdir)
         self.name_of_list = read_param.get_google_param('name_of_list')
         #self.ssId = '1s1ghFOoQqvjnbsEI2AChuCayLFSvsoJWnwp5KUCho9M'
         self.ss = uGoogleFunc.init(startdir+'\\credentials', startdir+'\\token')
+        print(startdir)
         read_coords = read_param.get_google_data_id()
         read_coords.insert(0, read_param.get_google_key_id())
         print(read_coords)

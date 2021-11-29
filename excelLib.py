@@ -131,7 +131,7 @@ class ExcelData(object):
                         g_count += 1
                     k += 1
 
-            key_count += 1
+            #key_count += 1
         self.workbook1.save(self.read_param.get_excel_param('budget_path'))
         self.workbook1.close()
 
