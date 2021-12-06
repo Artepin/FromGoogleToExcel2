@@ -66,17 +66,36 @@ class Spreadsheets:
              score += 1
              switch = 0
              repeat_count = 0
-             if [key[0]] == k:
+             if k ==[]:
+                 elem = ''
+             else:
+                 elem = k[0]
+             several = elem.find(key[0])
+             if several is not -1:
+                 self.keys.append(str(score-1))
+                 print(self.keys)
+
+             # several = re.search(r'\d\n\d', elem)
+             # if several:
+             #     sev = k[0].split('\n')
+             #     for i in sev:
+             #         if a == i:
+             #             self.keys.append(str(score - 1))
+
+             if key == k:
                  if self.keys == []:
                     self.keys.append(str(score - 1))
                     # switch = 1
+
                  else:
+
                     for i in self.keys:
                         if i == str(score-1):
                             repeat_count += 1
                     if repeat_count == 0:
                         print('Ключ в строке: ' + str(score))
                         self.keys.append(str(score-1))
+
         if self.keys:
             # self.keys = key +self.keys
             print('Ключ: ')
@@ -106,6 +125,7 @@ class Spreadsheets:
                         data.append([''])
                     else:
                         data.append(self.gData[i][0][int(j)])
+            # data.append(False)
             self.importData.append(data)
 
         for i in self.importData:

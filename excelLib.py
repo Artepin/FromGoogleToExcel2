@@ -87,9 +87,9 @@ class ExcelData(object):
         row_excel_result = 1
         key_count = 0
         key_none_count = 0
-        count_of_data = len(g_data[0])
+        count_of_data = len(g_data[0])-1
         print(count_of_data)
-        self.excel_key[len(g_data)] = ''
+        # self.excel_key[len(g_data)] = ''
         for i in self.excel_key:
             exc_repeat = excel_key_repeat(self.excel_key, i)
             if i is None:
@@ -115,15 +115,20 @@ class ExcelData(object):
                         if j is None:
                             g_none_count += 1
                             row_excel_result +=1
-                        if i == j[0][0]:
+
+                        several = j[0][0].find(i)
+                        if several is not -1:
+                        # if i == j[0][0]:
                             repeat_count += 1
+                            print(len(g_data[g_count]))
                             if repeat_count > exc_repeat:
                                 if k==1:
                                     #print(g_data[g_count][k][0])
                                     print('добавляю значение по координате с добавлением строки ' + str(self.excel_data_column[k - 1]) + str(row_excel_result + self.data_row + key_count) + ' ' +g_data[g_count][k][0])
-                                    self.sheet1.insert_rows(idx=row_excel_result +self.data_row  + key_count)
+                                    self.sheet1.insert_rows(idx=row_excel_result + self.data_row)
                                     #print('ячейка: '+ str(self.sheet1[self.excel_key_column[0] + str(row_excel_result + 1 + self.data_row)].value))
-                                self.sheet1[self.excel_data_column[k - 1] + str(row_excel_result + self.data_row + key_count)].value = str(g_data[g_count][k][0])
+                                self.sheet1[self.excel_data_column[k - 1] + str(row_excel_result + self.data_row + key_count )].value = str(g_data[g_count][k][0])
+
                             else:
                                 print('добавляю значение по координате без добавления строки ' + self.excel_data_column[k - 1] + str(row_excel_result  + self.data_row + key_count) + ' ' + str(g_data[g_count][k][0]))
                                 self.sheet1[self.excel_data_column[k - 1] + str(row_excel_result + self.data_row + key_count)].value = str(g_data[g_count][k][0])
