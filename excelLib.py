@@ -82,12 +82,12 @@ class ExcelData(object):
         return list_key
 
     def cycle3(self, g_data):
-
         list_repeat = []
         row_excel_result = 1
         key_count = 0
         key_none_count = 0
         count_of_data = len(g_data[0])-1
+        number_of_gData = 0
         print(count_of_data)
         # self.excel_key[len(g_data)] = ''
         for i in self.excel_key:
@@ -123,10 +123,11 @@ class ExcelData(object):
                             print(len(g_data[g_count]))
                             if repeat_count > exc_repeat:
                                 if k==1:
-                                    #print(g_data[g_count][k][0])
+                                    # print(g_data[g_count][k][0])
                                     print('добавляю значение по координате с добавлением строки ' + str(self.excel_data_column[k - 1]) + str(row_excel_result + self.data_row + key_count) + ' ' +g_data[g_count][k][0])
                                     self.sheet1.insert_rows(idx=row_excel_result + self.data_row)
-                                    #print('ячейка: '+ str(self.sheet1[self.excel_key_column[0] + str(row_excel_result + 1 + self.data_row)].value))
+
+                                    # print('ячейка: '+ str(self.sheet1[self.excel_key_column[0] + str(row_excel_result + 1 + self.data_row)].value))
                                 self.sheet1[self.excel_data_column[k - 1] + str(row_excel_result + self.data_row + key_count )].value = str(g_data[g_count][k][0])
 
                             else:
@@ -135,10 +136,37 @@ class ExcelData(object):
                             row_excel_result += 1
                         g_count += 1
                     k += 1
-
+                g_data[number_of_gData][count_of_data] = True
+                number_of_gData+=1
             #key_count += 1
         self.workbook1.save(self.read_param.get_excel_param('budget_path'))
         self.workbook1.close()
+    def cycle4(self,g_data):
+        count_of_columns = len(g_data[0])-1
+        excel_key_count = 0
+        for i in self.excel_key:
+            if i is None:
+                excel_key_count+=1
+                continue
+            g_data_count = 0
+            repeat_count = 0
+            for j in g_data:
+                if g_data[g_data_count][count_of_columns] == False:
+                    several = j[0][0].find(i)
+                    if several is not -1:
+                        repeat_count += 1
+                        if repeat_count>1 and len(j[0][0])!=len(i):
+                            continue
+                        if repeat_count>1:
+                            self.sheet1.insert_rows(idx=excel_key_count + self.data_row + repeat_count)
+                        for k in range (1,count_of_columns):
+                            self.sheet1[self.excel_data_column[k-1]+str(self.data_row+excel_key_count + repeat_count)].value = str(g_data[g_data_count][k][0])
+                        g_data[g_data_count][count_of_columns] = True
+                g_data_count += 1
+            excel_key_count += 1
+        self.workbook1.save(self.read_param.get_excel_param('budget_path'))
+        self.workbook1.close()
+
 
 
 def excel_key_repeat(excel_keys, key):

@@ -125,7 +125,7 @@ class Spreadsheets:
                         data.append([''])
                     else:
                         data.append(self.gData[i][0][int(j)])
-            # data.append(False)
+            data.append(False)
             self.importData.append(data)
 
         for i in self.importData:
