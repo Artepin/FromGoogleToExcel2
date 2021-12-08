@@ -163,10 +163,11 @@ class ExcelData(object):
                         for k in range (1,count_of_columns):
                             self.sheet1[self.excel_data_column[k-1]+str(self.data_row+excel_key_count + repeat_count)].value = str(g_data[g_data_count][k][0])
                         g_data[g_data_count][count_of_columns] = True
+                        if repeat_count > 1:
+                            excel_key_count+=1
+
                 g_data_count += 1
-                excel_key_count += 1
-            else:
-                excel_key_count += 1
+            excel_key_count += 1
         self.workbook1.save(self.read_param.get_excel_param('budget_path'))
         self.workbook1.close()
 
