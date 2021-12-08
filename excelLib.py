@@ -81,6 +81,7 @@ class ExcelData(object):
             list_key.append(self.sheet1[cell_key.column + str(i)].value)
         return list_key
 
+    '''
     def cycle3(self, g_data):
         list_repeat = []
         row_excel_result = 1
@@ -141,6 +142,7 @@ class ExcelData(object):
             #key_count += 1
         self.workbook1.save(self.read_param.get_excel_param('budget_path'))
         self.workbook1.close()
+'''
 
     def cycle4(self,g_data):
         count_of_columns = len(g_data[0])-1
