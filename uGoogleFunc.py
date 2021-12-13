@@ -9,7 +9,7 @@ import os
 
 def init(p_Creds, p_tokenName):
 
-    # os.environ["HTTPS_PROXY"] = 'http://kozlovaa:123@prox.mera.local:3128'
+    os.environ["HTTPS_PROXY"] = 'http://kozlovaa:123@prox.mera.local:3128'
     SCOPES = ['https://www.googleapis.com/auth/spreadsheets']
     creds = None
     # The file token.json stores the user's access and refresh tokens, and is

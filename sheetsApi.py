@@ -62,7 +62,9 @@ class Spreadsheets:
         # self.keys = []
         id_column = list(self.gData.keys())[0]
         key_column = self.gData[id_column][0]
+
         for k in key_column:
+
              score += 1
              switch = 0
              repeat_count = 0
@@ -72,34 +74,35 @@ class Spreadsheets:
                  elem = k[0]
              several = elem.find(key[0])
              if several is not -1:
-                 self.keys.append(str(score-1))
-                 print(self.keys)
 
-             # several = re.search(r'\d\n\d', elem)
-             # if several:
-             #     sev = k[0].split('\n')
-             #     for i in sev:
-             #         if a == i:
-             #             self.keys.append(str(score - 1))
+                 #self.keys.append(str(score-1))
+                 # print(self.keys)
+                 print()
 
-             if key == k:
+             pos = elem.find(key[0])
+             if pos is not -1 :
                  if self.keys == []:
-                    self.keys.append(str(score - 1))
+                    pair = [str(score-1), key[0]]
+                    self.keys.append(pair)
                     # switch = 1
 
                  else:
-
-                    for i in self.keys:
-                        if i == str(score-1):
-                            repeat_count += 1
-                    if repeat_count == 0:
-                        print('Ключ в строке: ' + str(score))
-                        self.keys.append(str(score-1))
+                     for i in self.keys:
+                         if i[0] == str(score-1):
+                            if i[1] ==key[0]:
+                                repeat_count += 1
+                                continue
+                     if repeat_count == 0:
+                         print('Ключ в строке: ' + str(score))
+                         pair = [str(score - 1), key[0]]
+                         self.keys.append(pair)
 
         if self.keys:
             # self.keys = key +self.keys
             print('Ключ: ')
             print(self.keys)
+
+
 
     def compare_keys(self, cellColumn):  # функция, запрашивающая ключи по шифру из Excel в Google Sheets
         print('Функция прохода по ключевому столбцу:')
@@ -115,7 +118,8 @@ class Spreadsheets:
             score += 1
             name_of_column.append(i)
 
-        for j in self.keys:
+        for u in self.keys:
+            j = u[0]
             score = 0
             data = []
             for i in name_of_column:

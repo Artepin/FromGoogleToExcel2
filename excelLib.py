@@ -8,9 +8,10 @@ import read_ini
 class ExcelData(object):
     def __init__(self):
         self.read_param = read_ini.ReadIni()
-        #self.workbook = openpyexcel.load_workbook('./2613 Бюджет проекта.xlsm', data_only=True)
-        #self.sheet = self.workbook['Лист1']
-        self.workbook1 = openpyexcel.load_workbook(self.read_param.get_excel_param('budget_path'), data_only=True,keep_vba=True)
+        # self.workbook = openpyexcel.load_workbook('./2613 Бюджет проекта.xlsm', data_only=True)
+        # self.sheet = self.workbook['Лист1']
+        self.workbook1 = openpyexcel.load_workbook(self.read_param.get_excel_param('budget_path'), data_only=True,
+                                                   keep_vba=True)
         self.sheet1 = self.workbook1[self.read_param.get_excel_param('name_of_list')]
         key_id = self.read_param.get_excel_key_id()
         data_id = self.read_param.get_excel_data_id()
@@ -46,7 +47,7 @@ class ExcelData(object):
         print(self.cIdColumn)
 
     def get_key_data(self):
-        max_row = self.sheet.max_row
+        max_row = self.sheet1.max_row
         cell_start = uExcelFunc.findCell(self.workbook1, self.read_param.get_excel_key_id())
         row_start = cell_start.row
         column_start = cell_start.column
@@ -81,13 +82,12 @@ class ExcelData(object):
             list_key.append(self.sheet1[cell_key.column + str(i)].value)
         return list_key
 
-
     def cycle3(self, g_data):
         list_repeat = []
         row_excel_result = 1
         key_count = 0
         key_none_count = 0
-        count_of_data = len(g_data[0])-1
+        count_of_data = len(g_data[0]) - 1
         number_of_gData = 0
         print(count_of_data)
         # self.excel_key[len(g_data)] = ''
@@ -115,59 +115,65 @@ class ExcelData(object):
                     for j in g_data:
                         if j is None:
                             g_none_count += 1
-                            row_excel_result +=1
+                            row_excel_result += 1
 
                         several = j[0][0].find(i)
                         if several is not -1:
-                        # if i == j[0][0]:
+                            # if i == j[0][0]:
                             repeat_count += 1
                             print(len(g_data[g_count]))
                             if repeat_count > exc_repeat:
-                                if k==1:
+                                if k == 1:
                                     # print(g_data[g_count][k][0])
-                                    print('добавляю значение по координате с добавлением строки ' + str(self.excel_data_column[k - 1]) + str(row_excel_result + self.data_row + key_count) + ' ' +g_data[g_count][k][0])
+                                    print('добавляю значение по координате с добавлением строки ' + str(
+                                        self.excel_data_column[k - 1]) + str(
+                                        row_excel_result + self.data_row + key_count) + ' ' + g_data[g_count][k][0])
                                     self.sheet1.insert_rows(idx=row_excel_result + self.data_row)
 
                                     # print('ячейка: '+ str(self.sheet1[self.excel_key_column[0] + str(row_excel_result + 1 + self.data_row)].value))
-                                self.sheet1[self.excel_data_column[k - 1] + str(row_excel_result + self.data_row + key_count )].value = str(g_data[g_count][k][0])
+                                self.sheet1[self.excel_data_column[k - 1] + str(
+                                    row_excel_result + self.data_row + key_count)].value = str(g_data[g_count][k][0])
 
                             else:
-                                print('добавляю значение по координате без добавления строки ' + self.excel_data_column[k - 1] + str(row_excel_result  + self.data_row + key_count) + ' ' + str(g_data[g_count][k][0]))
-                                self.sheet1[self.excel_data_column[k - 1] + str(row_excel_result + self.data_row + key_count)].value = str(g_data[g_count][k][0])
+                                print('добавляю значение по координате без добавления строки ' + self.excel_data_column[
+                                    k - 1] + str(row_excel_result + self.data_row + key_count) + ' ' + str(
+                                    g_data[g_count][k][0]))
+                                self.sheet1[self.excel_data_column[k - 1] + str(
+                                    row_excel_result + self.data_row + key_count)].value = str(g_data[g_count][k][0])
                             row_excel_result += 1
                         g_count += 1
                     k += 1
                 g_data[number_of_gData][count_of_data] = True
-                number_of_gData+=1
-            #key_count += 1
+                number_of_gData += 1
+            # key_count += 1
         self.workbook1.save(self.read_param.get_excel_param('budget_path'))
         self.workbook1.close()
 
-
-    def cycle4(self,g_data):
-        count_of_columns = len(g_data[0])-1
+    def cycle4(self, g_data):
+        count_of_columns = len(g_data[0]) - 1
         excel_row_counter = 0
         for i in self.excel_key:
             imported_keys = []
             if i is None:
-                excel_row_counter+=1
+                excel_row_counter += 1
                 continue
             g_data_count = 0
             repeat_count = 0
             # repeat_count = excel_key_repeat(self.excel_key, i)
             for j in g_data:
-                if g_data[g_data_count][count_of_columns] == False:
+                if not g_data[g_data_count][count_of_columns]:
                     several = j[0][0].find(i)
                     if several is not -1:
-                        if repeat_count>1 and len(j[0][0])!=len(i):
+                        if repeat_count > 1 and len(j[0][0]) != len(i):
                             continue
                         # self.sheet1.insert_rows(idx=excel_row_counter + self.data_row + repeat_count)
-                        for k in range (1,count_of_columns):
-                            self.sheet1[self.excel_data_column[k-1]+str(self.data_row+excel_row_counter + repeat_count)].value = str(g_data[g_data_count][k][0])
+                        for k in range(1, count_of_columns):
+                            self.sheet1[self.excel_data_column[k - 1] + str(
+                                self.data_row + excel_row_counter + repeat_count)].value = str(
+                                g_data[g_data_count][k][0])
                         g_data[g_data_count][count_of_columns] = True
                         if repeat_count > 1:
-                            excel_row_counter+=repeat_count
-
+                            excel_row_counter += repeat_count
 
                 g_data_count += 1
             excel_row_counter += 1
@@ -179,54 +185,63 @@ class ExcelData(object):
         excel_row_counter = 0
         count_of_columns = len(g_data[0]) - 1
         for i in self.excel_key:
-
+            # excel_key_repeat = excel_key_repeat_2(i, inputted_keys)
+            # if excel_key_repeat>0:
+            #     continue
             if i is None:
-                excel_row_counter += 1
                 continue
             else:
                 g_data_counter = 0
                 long_string = False
                 for j in g_data:
 
-                    if g_data[g_data_counter][count_of_columns] ==False:
+                    if not g_data[g_data_counter][count_of_columns]:
                         several = j[0][0].find(i)
                         if several != -1:
-                            if len(j[0][0])!=len(i):
+                            if len(j[0][0]) != len(i):
                                 long_string = True
 
-
-                            excel_key_repeat = excel_key_repeat_2(i, inputted_keys)
+                            excel_key_repeat = excel_key_repeat_2(i, j[0][0], inputted_keys)
                             if excel_key_repeat > 0:
-                                # excel_row_counter += 1
+                                excel_row_counter += 1
                                 self.sheet1.insert_rows(excel_row_counter + self.data_row + 1)
-                            for k in range(1,count_of_columns):
-                                self.sheet1[self.excel_data_column[k-1] + str(self.data_row + excel_row_counter + 1)].value = str(g_data[g_data_counter][k][0])
+                            for k in range(1, count_of_columns):
+                                self.sheet1[self.excel_data_column[k - 1] + str(
+                                    self.data_row + excel_row_counter + 1)].value = str(g_data[g_data_counter][k][0])
                             g_data[g_data_counter][count_of_columns] = True
-                            excel_row_counter +=1
+                            #excel_row_counter += 1
                             if long_string is True:
                                 break
                     g_data_counter += 1
-
+            excel_row_counter += 1
         self.workbook1.save(self.read_param.get_excel_param('budget_path'))
         self.workbook1.close()
 
-def excel_key_repeat_2(key, inputted_keys):
+
+def excel_key_repeat_2(key, id, inputted_keys):
     repeat_count = 0
+    pair=[]
+    addkey = True
     if inputted_keys == []:
-        inputted_keys.append(key)
+        pair.append(key)
+        pair.append(id)
+        inputted_keys.append(pair)
     else:
         for i in inputted_keys:
-            if i ==key:
-                repeat_count+=1
+            if i[1] == key:
+                repeat_count += 1
             else:
-                continue
-        inputted_keys.append(key)
+                pos = i[1].find(key)
+                if pos!=-1:
+                    if i[0]==key:
+                        addkey = False
+                        repeat_count += 1
+                        continue
+        if addkey:
+            pair.append(key)
+            pair.append(id)
+            inputted_keys.append(pair)
     return repeat_count
-
-
-
-
-
 
 
 '''def excel_key_repeat(excel_keys, key):
@@ -248,7 +263,6 @@ def excel_key_repeat_2(key, inputted_keys):
                     repeat = False
                     return repeat_count
     return 0'''
-
 
 
 def is_key_repeat(list_score, a):
